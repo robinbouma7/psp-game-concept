@@ -5,7 +5,7 @@ CFLAGS = -G0 -Wall -g
 CXXFLAGS = $(CFLAGS) -fno-rtti  -fno-exceptions
 ASFLAGS = $(CFLAGS)
 
-LIBS = -lstdc++
+LIBS = -lpng -ljpeg -lz -lpspgu -lm -lpspvram -lstdc++
 
 # psp stuff
 PSP_FW_VERSION = 500
