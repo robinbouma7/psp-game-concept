@@ -2,4 +2,4 @@
 
 testen met andere collision door game loop.
 
-weet niet of ikdit een spel maak.
+weet niet of ik dit een spel maak.
