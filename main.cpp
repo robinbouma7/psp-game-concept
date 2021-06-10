@@ -28,6 +28,13 @@ int callbackthread(SceSize args, void *argp) {
     return 0;
 }
 
+
+void setupcallbacks () {
+    int thid = sceKernelCreateThread("update_thread", callbackthread, 0x11, 0xfa0, 0, NULL);
+    if (thid >= 0) {
+        sceKernelStartThread(thid, 0, NULL);
+    }
+}
 //wall variables
 int muurtop[8] = {47, 151, 0, 157, 0, 266, 6, 161};
 int muurleft[8] = {45, 0, 0, 0, 6, 6, 474, 474};
@@ -49,17 +56,57 @@ int drawwalls() {
     return 0;
 }
 
-int collision() {
+int drawstuff() {
+    //draw stuff
+    g2dClear(BLACK);
+
+    drawwalls();       
+
+    g2dBeginRects(ric);
+    if (ric == NULL) {
+        g2dSetColor(RED);
+    }
+    g2dSetCoordMode(G2D_CENTER);
+    g2dSetAlpha(255);
+    g2dSetScaleWH(w,h);
+    g2dSetCoordXY(x,y);
+    g2dSetRotation(0);
+    g2dAdd();
+    g2dEnd();
+               
+    g2dFlip(G2D_VSYNC);
     
 }
 
+int collision() {
+    //0.1 difference so only collision on overlap
+        float playertop = y - 12.4;
+        float playerbottom = y + 12.4;
+        float playerleft = x - 12.4;
+        float playerright = x + 12.4;
 
-void setupcallbacks () {
-    int thid = sceKernelCreateThread("update_thread", callbackthread, 0x11, 0xfa0, 0, NULL);
-    if (thid >= 0) {
-        sceKernelStartThread(thid, 0, NULL);
-    }
+        for (int i = 0; i < 8; i++) {
+
+            int muur_top = muurtop[i];
+            int muur_bottom = muurtop[i] + muurheight[i];
+            int muur_left = muurleft[i];
+            int muur_right = muurleft[i] + muurwidth[i];
+
+            if (playertop > muur_bottom || playerright < muur_left || playerbottom < muur_top || playerleft > muur_right) {
+
+            }
+            else {
+                //collision
+                x = xoud;
+                y = youd;
+                
+            }
+
+        }
+    drawstuff();
 }
+
+
 
 auto main() -> int {
     
@@ -72,64 +119,29 @@ auto main() -> int {
 
     //movement under here
     SceCtrlData ctrldata;
-    while(1) {
+    while(true) {
             
             sceCtrlReadBufferPositive(&ctrldata, 1);
 
-                 
+                float xoud = x;
+                float youd = y;
+        
 
-                if (ctrldata.Buttons & PSP_CTRL_UP) {
-                    //pspDebugScreenPrintf("up is pressed \n");
-                    if (!input && y > 12.5){
-                        y-=15;
-                        
-                        input = true;
-                    }
-                    else {
-   
-                    }  
-                    
+                if (ctrldata.Buttons & PSP_CTRL_UP) { 
+                    y--                                          
                 }
 
                 else if (ctrldata.Buttons & PSP_CTRL_DOWN) {
-                    //pspDebugScreenPrintf("down is pressed \n");
-                    if (!input && y < 259.5){
-                        y+=15;
-                        
-                        input = true;
-                    }
-                    else {
-
-                    } 
+                    y++
                     
                 }
 
-                else if (ctrldata.Buttons & PSP_CTRL_RIGHT) {
-                    //pspDebugScreenPrintf("right is pressed \n");
-                    if (!input && x < 467.5) {
-                        x+=15;
-                       
-                        input = true;
-                     }
-                     else {
-
-                     }
-
+                else if (ctrldata.Buttons & PSP_CTRL_RIGHT) {                  
+                        x++
                 }
 
-                else if (ctrldata.Buttons & PSP_CTRL_LEFT) {
-                    //pspDebugScreenPrintf("left is pressed \n");
-                    if (!input && x > 12.5){
-                        x-=15;
-                        
-                        input = true;
-                    }
-
-                    else {
-
-                    }
-                     
-                    
+                else if (ctrldata.Buttons & PSP_CTRL_LEFT) {                   
+                        x--                                       
                 }
                 
                 
@@ -137,36 +149,9 @@ auto main() -> int {
                     //als je niks indruk word hier input false. zodat je de knoppen moet klikken en niet in houden
                     input = false;
                 }
-                
-                //draw stuff
-                g2dClear(BLACK);
-
-                drawwalls();
-                if (!collected) {
-                    drawcoin();
-                }
-
-                g2dBeginRects(ric);
-                if (ric == NULL) {
-                    g2dSetColor(RED);
-                }
-                g2dSetCoordMode(G2D_UP_LEFT);
-                g2dSetAlpha(255);
-                g2dSetScaleWH(w,h);
-                g2dSetCoordXY(x,y);
-                g2dSetRotation(0);
-                g2dAdd();
-                g2dEnd();
-               
-                
-  
-                g2dFlip(G2D_VSYNC);
         
-                score-=1;
-
-                    
-                    
-            
+                collision();
+              
     }
     
 }
