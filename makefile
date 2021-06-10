@@ -1,5 +1,6 @@
 TARGET = test
-OBJS = main.o 
+OBJS = main.o \
+glib2d.o
  
 CFLAGS = -G0 -Wall -g
 CXXFLAGS = $(CFLAGS) -fno-rtti  -fno-exceptions
