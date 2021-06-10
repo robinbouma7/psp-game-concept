@@ -128,20 +128,19 @@ auto main() -> int {
         
 
                 if (ctrldata.Buttons & PSP_CTRL_UP) { 
-                    y--                                          
+                    y--;
                 }
 
                 else if (ctrldata.Buttons & PSP_CTRL_DOWN) {
-                    y++
-                    
+                    y++;
                 }
 
                 else if (ctrldata.Buttons & PSP_CTRL_RIGHT) {                  
-                        x++
+                        x++;
                 }
 
                 else if (ctrldata.Buttons & PSP_CTRL_LEFT) {                   
-                        x--                                       
+                        x--; 
                 }
                 
                 
