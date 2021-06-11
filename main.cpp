@@ -6,6 +6,9 @@
 
 float x = 12.5, y = 136;
 bool input = false; 
+float xoud = x;
+float youd = y;
+
 
 
 PSP_MODULE_INFO("game-test", 0, 1, 1);
@@ -35,6 +38,7 @@ void setupcallbacks () {
         sceKernelStartThread(thid, 0, NULL);
     }
 }
+
 //wall variables
 int muurtop[8] = {47, 151, 0, 157, 0, 266, 6, 161};
 int muurleft[8] = {45, 0, 0, 0, 6, 6, 474, 474};
@@ -57,6 +61,10 @@ int drawwalls() {
 }
 
 int drawstuff() {
+    g2dTexture* ric = g2dTexLoad("ricardo.png",G2D_SWIZZLE);
+    int w = (ric == NULL ? 10 : ric->w),
+    h = (ric == NULL ? 10 : ric->h);
+
     //draw stuff
     g2dClear(BLACK);
 
@@ -75,10 +83,12 @@ int drawstuff() {
     g2dEnd();
                
     g2dFlip(G2D_VSYNC);
+    return 0;
     
 }
 
 int collision() {
+    
     //0.1 difference so only collision on overlap
         float playertop = y - 12.4;
         float playerbottom = y + 12.4;
@@ -104,6 +114,7 @@ int collision() {
 
         }
     drawstuff();
+    return 0;
 }
 
 
@@ -113,9 +124,7 @@ auto main() -> int {
     setupcallbacks();
 
     //player sprite
-    g2dTexture* ric = g2dTexLoad("ricardo.png",G2D_SWIZZLE);
-    int w = (ric == NULL ? 10 : ric->w),
-    h = (ric == NULL ? 10 : ric->h);
+    
 
     //movement under here
     SceCtrlData ctrldata;
@@ -123,23 +132,23 @@ auto main() -> int {
             
             sceCtrlReadBufferPositive(&ctrldata, 1);
 
-                float xoud = x;
-                float youd = y;
+                xoud = x;
+                youd = y;
         
 
                 if (ctrldata.Buttons & PSP_CTRL_UP) { 
                     y--;
                 }
 
-                else if (ctrldata.Buttons & PSP_CTRL_DOWN) {
+                if (ctrldata.Buttons & PSP_CTRL_DOWN) {
                     y++;
                 }
 
-                else if (ctrldata.Buttons & PSP_CTRL_RIGHT) {                  
+                if (ctrldata.Buttons & PSP_CTRL_RIGHT) {                  
                         x++;
                 }
 
-                else if (ctrldata.Buttons & PSP_CTRL_LEFT) {                   
+                if (ctrldata.Buttons & PSP_CTRL_LEFT) {                   
                         x--; 
                 }
                 
