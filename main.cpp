@@ -3,11 +3,17 @@
 #include <pspdisplay.h>
 #include <pspctrl.h>
 #include "glib2d.h"
+#include <stdlib.h>
+
 
 float x = 12.5, y = 136;
-bool input = false; 
+bool input = false;
 float xoud = x;
 float youd = y;
+
+/*g2dTexture* ric = g2dTexLoad("ricardo.png",G2D_SWIZZLE);
+int w = (ric == NULL ? 10 : ric->w),
+h = (ric == NULL ? 10 : ric->h);*/
 
 
 
@@ -39,11 +45,14 @@ void setupcallbacks () {
     }
 }
 
+//code to stop the game ends here.
+
+
 //wall variables
 int muurtop[8] = {47, 151, 0, 157, 0, 266, 6, 161};
 int muurleft[8] = {45, 0, 0, 0, 6, 6, 474, 474};
 int muurwidth[8] = {6, 43, 6, 6, 479, 479, 6, 6};
-int muurheight[8] = {68, 6, 116, 115, 6, 6, 105, 161};
+int muurheight[8] = {68, 1, 116, 115, 6, 6, 105, 161};
 
 int drawwalls() {
     //draw the walls    
@@ -61,14 +70,24 @@ int drawwalls() {
 }
 
 int drawstuff() {
-    g2dTexture* ric = g2dTexLoad("ricardo.png",G2D_SWIZZLE);
-    int w = (ric == NULL ? 10 : ric->w),
-    h = (ric == NULL ? 10 : ric->h);
+
 
     //draw stuff
     g2dClear(BLACK);
 
     drawwalls();       
+
+    g2dBeginRects(NULL); // No texture
+    g2dSetColor(BLUE);
+    g2dSetScaleWH(4,4);
+    g2dSetCoordXY(x,y);
+    g2dAdd();
+    g2dEnd();
+               
+    g2dFlip(G2D_VSYNC);
+    return 0;
+
+    /* old code
 
     g2dBeginRects(ric);
     if (ric == NULL) {
@@ -80,20 +99,17 @@ int drawstuff() {
     g2dSetCoordXY(x,y);
     g2dSetRotation(0);
     g2dAdd();
-    g2dEnd();
-               
-    g2dFlip(G2D_VSYNC);
-    return 0;
+    g2dEnd();*/
     
 }
 
 int collision() {
     
     //0.1 difference so only collision on overlap
-        float playertop = y - 12.4;
-        float playerbottom = y + 12.4;
-        float playerleft = x - 12.4;
-        float playerright = x + 12.4;
+        float playertop = y + 0.1;
+        float playerbottom = y + 3.9;
+        float playerleft = x + 0.1;
+        float playerright = x + 3.9;
 
         for (int i = 0; i < 8; i++) {
 

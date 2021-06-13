@@ -13,7 +13,7 @@ PSP_FW_VERSION = 500
 PSP_LARGE_MEMORY = 1
 
 EXTRA_TARGETS = EBOOT.PBP
-PSP_EBOOT_TITLE = psp game test
+PSP_EBOOT_TITLE = the big maze
 # PSP_EBOOT_ICON = icon0.png
 
 PSPSDK = $(shell psp-config --pspsdk-path)
