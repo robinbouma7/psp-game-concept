@@ -1,5 +1,7 @@
 # psp-game-concept
 
-testen met andere collision door game loop.
+maze game for psp.
 
-weet niet of ik dit een spel maak.
+started as a concept but will become a game.
+
+some code is frommy other psp game: https://github.com/robinbouma7/doolhof-de-game-psp
