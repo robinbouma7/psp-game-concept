@@ -11,10 +11,6 @@ bool input = false;
 float xoud = x;
 float youd = y;
 
-/*g2dTexture* ric = g2dTexLoad("ricardo.png",G2D_SWIZZLE);
-int w = (ric == NULL ? 10 : ric->w),
-h = (ric == NULL ? 10 : ric->h);*/
-
 
 
 PSP_MODULE_INFO("game-test", 0, 1, 1);
@@ -44,8 +40,8 @@ void setupcallbacks () {
         sceKernelStartThread(thid, 0, NULL);
     }
 }
-
 //code to stop the game ends here.
+
 
 
 //wall variables
@@ -86,20 +82,6 @@ int drawstuff() {
                
     g2dFlip(G2D_VSYNC);
     return 0;
-
-    /* old code
-
-    g2dBeginRects(ric);
-    if (ric == NULL) {
-        g2dSetColor(RED);
-    }
-    g2dSetCoordMode(G2D_CENTER);
-    g2dSetAlpha(255);
-    g2dSetScaleWH(w,h);
-    g2dSetCoordXY(x,y);
-    g2dSetRotation(0);
-    g2dAdd();
-    g2dEnd();*/
     
 }
 
@@ -170,8 +152,7 @@ auto main() -> int {
                 
                 
                 else {
-                    //als je niks indruk word hier input false. zodat je de knoppen moet klikken en niet in houden
-                    input = false;
+                    
                 }
         
                 collision();
