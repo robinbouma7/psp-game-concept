@@ -10,6 +10,7 @@ float x = 12.5, y = 136;
 bool input = false;
 float xoud = x;
 float youd = y;
+bool playing = true;
 
 
 
@@ -42,7 +43,43 @@ void setupcallbacks () {
 }
 //code to stop the game ends here.
 
+int finish() {
+    playing = false;
+    
+    SceCtrlData ctrldata;
+    pspDebugScreenInit();
+    pspDebugScreenSetTextColor(0xFFFF0000);
+    pspDebugScreenPrintf("je bent gefinished! druk op x om opnieuw te starten.");
+    pspDebugScreenSetTextColor(0xFF0000FF);
+    
+    while (true) {
+        sceCtrlReadBufferPositive(&ctrldata, 1);
+        
+        if (ctrldata.Buttons & PSP_CTRL_CROSS) {
+            //reset player
+            
+            playing = true;
+            return 0;
+        }
+    }
+}
 
+int finishcheck() {
+    float playertop = y - 12.4;
+    float playerbottom = y + 12.4;
+    float playerleft = x - 12.4;
+    float playerright = x + 12.4;
+
+
+        if (playertop > 161 || playerright < 430 || playerbottom < 111 || playerleft > 480) {
+            //not touching the finish, so do nothing.
+        }
+        else {       
+            finish();
+        }    
+    
+    return 0;
+}
 
 //wall variables
 int muurtop[8] = {47, 151, 0, 157, 0, 266, 6, 161};
@@ -61,6 +98,14 @@ int drawwalls() {
         g2dEnd();
     
     }
+    
+    //draw the finish
+    g2dBeginRects(NULL); // No texture
+    g2dSetColor(GREEN);
+    g2dSetScaleWH(50,50);
+    g2dSetCoordXY(430,111);
+    g2dAdd();
+    g2dEnd();
 
     return 0;
 }
@@ -81,6 +126,9 @@ int drawstuff() {
     g2dEnd();
                
     g2dFlip(G2D_VSYNC);
+    
+    finishcheck();
+    
     return 0;
     
 }
@@ -126,7 +174,7 @@ auto main() -> int {
 
     //movement under here
     SceCtrlData ctrldata;
-    while(true) {
+    while(playing) {
             
             sceCtrlReadBufferPositive(&ctrldata, 1);
 
